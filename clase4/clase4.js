@@ -1,3 +1,7 @@
+
+
+//! PRIMERA PARTE : ASINCRONIA EN JS
+
 let count = 0;
 
 /*let interval = setInterval(() => {
@@ -18,3 +22,9 @@ let interval = setInterval(() => {
 
 
 //El interval se lee asi = setInterval(funcion,1000)
+
+
+
+
+
+//! SEGUNDA PARTE: MANEJO DE ARCHIVOS EN JS
