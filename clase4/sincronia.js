@@ -23,8 +23,3 @@ let interval = setInterval(() => {
 
 //El interval se lee asi = setInterval(funcion,1000)
 
-
-
-
-
-//! SEGUNDA PARTE: MANEJO DE ARCHIVOS EN JS
