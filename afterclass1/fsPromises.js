@@ -5,5 +5,7 @@ fs.promises.readFile('./info.txt', 'utf8')
         const info = JSON.parse(contenido);
         console.log(info);
     })
+    .catch(error =>{
+        console.log(error, 'Hubo un error')
+    })
 
-    
