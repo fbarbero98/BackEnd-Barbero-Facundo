@@ -17,3 +17,4 @@ let interval = setInterval(() => {
 //Esto es un interval no infinito.
 
 
+//El interval se lee asi = setInterval(funcion,1000)
