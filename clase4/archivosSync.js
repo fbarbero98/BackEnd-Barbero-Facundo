@@ -43,7 +43,8 @@ fs.unlinkSync('./testWrite.txt');
 //? SI SE USA TRY Y CATCH ENTONCES ESTOS METODOS SON CON ASINCRONIA?
 
 try {
-    const pruebaTry = fs.readFileSync('./asdsadsa'); //Como esta ruta no existe va a entrar el catch
+    const pruebaTry = fs.readFileSync('./test.txt', 'utf-8'); //Como esta ruta no existe va a entrar el catch
+    console.log(pruebaTry)
 } catch (error) {
     console.log('entro el catch')
     console.log(error)
