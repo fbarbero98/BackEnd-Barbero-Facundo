@@ -27,7 +27,10 @@ class Contenedor {
         }
     }
     async deleteById(id) {
-
+        const products = await this.getAll();
+        const newProducts = products.filter(prod => prod.id !== id); //retorna un array con todos los productos que no tengan el id que se le pasa por parametro
+        products = newProducts //Le asigna el valor de newProducts a products
+        return products;
     }
     async deleteAll() {
 
