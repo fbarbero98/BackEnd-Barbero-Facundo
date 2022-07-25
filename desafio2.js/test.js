@@ -5,24 +5,29 @@ const Contenedor = require('./Contenedor'); //Esta es la forma en la que vamos a
 
 async function main() {
     const product = new Contenedor('./productos.txt');
-    const obj = {
-        name : 'Juan' ,
-        apellido : 'perez'
-    }
-    //await product.save(obj)
 
-    /*
-    console.log('Muestro todos los productos');
+    //! EJEMPLOS: 
+    //? METODO SAVE:
+
+    const obj = {
+        name: 'Juan',
+        apellido: 'perez'
+    }
+    await product.save(obj);
+
+    //? METODO GET ALL:
     let allProducts = await product.getAll(); //Hay que hacer el await porque es asincrono esto
     console.log(allProducts);
 
-    const idToSearch = 1;
-    console.log(`Muestro el producto con id ${idToSearch}`);
+    //? METODO GET BY ID: 
+
+    const idToSearch = 2;
     let productById = await product.getbyId(idToSearch);
-    console.log(productById);*/
-
+    console.log(productById);
+    
+    //? METODOS DELETE BY ID Y DELETE ALL :
     await product.deleteById(1);
-
+    await product.deleteAll();
 }
 
 main()

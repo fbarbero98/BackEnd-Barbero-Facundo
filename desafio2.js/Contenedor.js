@@ -10,24 +10,24 @@ class Contenedor {
 
     async save(obj) {
         try {
-            let isInProds = await fs.readFile(this.ruta, 'utf-8');
+            let isInProds = await fs.readFile(this.ruta, 'utf-8'); //Declaramos una variable para ver lo que hay dentro del productos.txt
 
-            if (isInProds.length == 0) {
-                obj.id = 1;
-                const arrayObj = [obj];
-                const objeto = JSON.stringify(arrayObj);
+            if (isInProds.length == 0) { //Si productos.txt no tiene ningun objeto dentro, 
+                obj.id = 1; //le sumamos al objeto que se pasa por param, un id
+                const arrayObj = [obj]; //Metemos el objeto que se pasa por parametro dentro de un array
+                const objeto = JSON.stringify(arrayObj); //Transformamos ese objeto en formato string
 
-                await fs.appendFile(this.ruta, objeto);
+                await fs.appendFile(this.ruta, objeto); //Sumamos el objeto al productos.txt
             }
-            else {
-                const prodsObj = JSON.parse(isInProds);
-                let arrayLength = prodsObj.length;
-                obj.id = arrayLength + 1;
-                prodsObj.push(obj);
-                const objeto = JSON.stringify(prodsObj);
-                await fs.writeFile(this.ruta, objeto);
+            else { //Si productos.txt ya tiene objetos dentro,
+                const prodsObj = JSON.parse(isInProds); //Hacemos el parse porque lo devuelve como string
+                let arrayLength = prodsObj.length; //Declaramos una variable para ver cuantos objetos hay
+                obj.id = arrayLength + 1; //Declaramos que el id del obj que pasamos por parametro sea 1 mas que el largo del array
+                prodsObj.push(obj); //Le sumamos el objeto que pasamos por parametro al viejo objeto parseado
+                const objeto = JSON.stringify(prodsObj); //Pasamos el array completo a string
+                await fs.writeFile(this.ruta, objeto); //Sobreescribimos el archivo viejo
             }
-
+            return console.log(`Id del obj : ${obj.id}`);
         }
         catch (error) {
             console.log(error)
@@ -51,20 +51,18 @@ class Contenedor {
     async deleteById(id) {
         const products = await this.getAll();
         const newProducts = products.filter(prod => prod.id !== id); //retorna un array con todos los productos que no tengan el id que se le pasa por parametro
-        newProducts.forEach(prod => {
-            if (prod.id > id) {
-                prod.id --
-            }
+        newProducts.forEach(prod => { //Por cada producto del newProducts
+            if (prod.id > id) { //Si el id del producto es mayor al id que pasamos por parametro,
+                prod.id -- //Se le resta 1 al id de los productos cuyo id sea mayor que el id que pasamos por parametro
+            } //Esto es xq si eliminamos un producto, y creamos uno nuevo, se le asignaria un id ya asignado, entonces restamos uno a todos los siguientes despues de eliminar uno
         });
-        console.log(JSON.stringify(newProducts))
-        //for (let index = newProducts.length; index > id ; index--) {
-        //newProducts[index].id = newProducts[index].id - 1;  
-        await fs.writeFile(this.ruta, JSON.stringify(newProducts))
+        console.log(JSON.stringify(newProducts)) 
+        await fs.writeFile(this.ruta, JSON.stringify(newProducts)) //Lo pasamos a formato string y sobreescribimos el archivo.
     }
 
     async deleteAll() {
         const arrayVacio = []
-        await fs.writeFile(this.ruta, arrayVacio);
+        await fs.writeFile(this.ruta, arrayVacio); //Vacuiamos el array de productos y lo sobreescribimos. 
     }
 
 }
