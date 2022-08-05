@@ -42,4 +42,14 @@ app.use(function(err, req, res, next) {
     console.error(err.stack);
     res.status(500).send('Something broke!');
   });
-  
+
+
+//! MIDDLEWARE GLOBAL:
+
+
+app.use((req, res, next)=> { //Esto lo que hace es que cada vez que se ejecuta una ruta, cualquiera que sea, se pasa primero por este middleware
+    
+res.send('middlewareGlobal');
+console.log('middleware global')
+next()
+  });
