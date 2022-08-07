@@ -4,6 +4,7 @@ const { response } = require('express');
 const express = require('express');
 
 const app = express();
+app.use(express.json()); //Para poder trabajar con objetos.
 
 //! PASO 2: Indicar el puerto de conexion del server:
 //Tambien sumamos un callback que haga un log especificando que puerto esta escuchando.
@@ -46,25 +47,37 @@ app.get('/productos', async (req , res) => {
 
 //! PASO 7: Declaro la funcion que hace que devuelva el producto que pasamos por id:
 
-async function productoId(id) {
+async function productoId(id) { //Tenemos la funcion que llama al metodo getById de la class Contenedor
     return await product.getbyId(id);
 };
 
 app.get('/productos/:id' , async (req, res) =>{
-    const { id } = req.params ;
-    res.send(await productoId(id))
-    console.log(await productoId(id))
+    const { id } = req.params ; //desestructuramos los request params (:id)
+    res.send(await productoId(id)); //Llamamos a la funcion del getById pasando como parametro el id que tenemos del req.params
+    console.log(await productoId(id)); //imprime por consola
 })
 
 
 //! PASO 8: ARMAMOS TODO PARA EL POST:
 
-async function postProducto(prod) {
+async function postProducto(prod) { //Func que llama al metodo save de Contenedor
     return await product.save(prod)
 }
 
 app.post('/productos', async (req , res) =>{
-    const {producto} =  req.body;
-    res.send(await postProducto(producto));
+    const producto =  req.body; //asignamos una const que tenga el contenido del body de la peticion push (se puede desestrucurar tambien pero solo con el nombre particular)
+    res.send(await postProducto(producto)); //Llamamos a la funcion que tiene el .save y  le pasamos por parametro el producto que queremos sumar. (la funcion le da un id de por si que es igual al array length)
 });
 
+
+//! PASO 10: ARMAMOS TODO PARA EL DELETE:
+
+async function deleteProducto(id) {
+    return await product.deleteById(id);
+}
+
+app.delete('/productos/:id', async (req , res) =>{
+    const { id } = req.params ; //desestructuramos los request params (:id)
+    res.send(await deleteProducto(parseInt(id))); //Llamamos a la funcion del deleteById pasando como parametro el id que tenemos del req.params
+    //Hacemos el parseInt porque estamos recibiendo :id en formato string. Con el parse int lo reconoce como numero
+})

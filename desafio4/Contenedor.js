@@ -27,7 +27,7 @@ class Contenedor {
                 const objeto = JSON.stringify(prodsObj); //Pasamos el array completo a string
                 await fs.writeFile(this.ruta, objeto); //Sobreescribimos el archivo viejo
             }
-            return console.log(obj);
+            return obj;
         }
         catch (error) {
             console.log(error)
@@ -56,8 +56,8 @@ class Contenedor {
                 prod.id -- //Se le resta 1 al id de los productos cuyo id sea mayor que el id que pasamos por parametro
             } //Esto es xq si eliminamos un producto, y creamos uno nuevo, se le asignaria un id ya asignado, entonces restamos uno a todos los siguientes despues de eliminar uno
         });
-        console.log(JSON.stringify(newProducts)) 
-        await fs.writeFile(this.ruta, JSON.stringify(newProducts)) //Lo pasamos a formato string y sobreescribimos el archivo.
+        await fs.writeFile(this.ruta, JSON.stringify(newProducts)); //Lo pasamos a formato string y sobreescribimos el archivo.
+        return(JSON.stringify(newProducts));
     }
 
     async deleteAll() {
