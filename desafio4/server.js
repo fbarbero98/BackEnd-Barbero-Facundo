@@ -1,0 +1,70 @@
+
+//! PASO 1: Hacer el require de express y llamarlo con app:
+const { response } = require('express');
+const express = require('express');
+
+const app = express();
+
+//! PASO 2: Indicar el puerto de conexion del server:
+//Tambien sumamos un callback que haga un log especificando que puerto esta escuchando.
+const server = app.listen(8080, () => {
+    console.log(`El servidor esta escuchando el puerto ${server.address().port}`)
+});
+
+
+//! PASO 3 : Si hay un error en el servidor, indicar el error:
+//esto se hace con un evento on
+server.on('error', error => console.log(`Error en el server : ${error}`));
+
+
+//! PASO 4: Hacer un createServer con express, con la peticion get:
+
+app.get('/', (request , response) => {
+    response.send('<h1 style="color:blue;">Indicar en la ruta: /productos o /producto/:id </h1>');
+})
+
+
+//! PASO 5: HACER EL IMPORT DE LA CLASS CONTENEDOR:
+// Tambien declarar la constante product, que va a hacer que podamos usar los metodos de la class contenedor 
+
+const Contenedor = require('./Contenedor.js'); //Esta es la forma en la que vamos a importar
+const product = new Contenedor('./productos.txt');
+
+
+//! PASO 6: Declarar la funcion que va a hacer que veamos todos los productos y asignamos que la ruta /productos muestre ese return: 
+async function verProductos() {
+    return await product.getAll();
+};
+app.get('/productos', async (req , res) => {
+    res.send(await verProductos());
+
+    //? Otra manera de resolverlo: 
+    /*const product = new Contenedor('./productos.txt');
+    res.send(await product.getAll())*/
+});
+
+
+//! PASO 7: Declaro la funcion que hace que devuelva el producto que pasamos por id:
+
+async function productoId(id) {
+    return await product.getbyId(id);
+};
+
+app.get('/productos/:id' , async (req, res) =>{
+    const { id } = req.params ;
+    res.send(await productoId(id))
+    console.log(await productoId(id))
+})
+
+
+//! PASO 8: ARMAMOS TODO PARA EL POST:
+
+async function postProducto(prod) {
+    return await product.save(prod)
+}
+
+app.post('/productos', async (req , res) =>{
+    const {producto} =  req.body;
+    res.send(await postProducto(producto));
+});
+
