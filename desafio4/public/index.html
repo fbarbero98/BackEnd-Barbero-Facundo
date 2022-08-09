@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formularios de Ingreso</title>
+</head>
+<body>
+
+    <h2>Ingrese un producto Nuevo</h2>
+    <form action="/api/productos" method="POST"> <!-- en action tiene que ir la ruta a la que va el post-->
+        Nombre: <input type="text" name="title">
+        Precio: <input type="number" name="price">
+        thumbnail: <input type="text" name="thumbnail">
+        <button>Enviar</button>
+    </form>
+
+</body>
+</html>

@@ -2,9 +2,19 @@
 //! PASO 1: Hacer el require de express y llamarlo con app:
 const { response } = require('express');
 const express = require('express');
+const { Router } = express;
+
 
 const app = express();
-app.use(express.json()); //Para poder trabajar con objetos.
+app.use(express.static('public')); //Esto es para usar el html
+
+
+//? HACEMOS TAMBIEN LOS ROUTERS: M
+const routerProductos = new Router();
+routerProductos.use(express.json()); //Para poder trabajar con objetos
+routerProductos.use(express.urlencoded({ extended: true })); //Esto es para usar el html
+
+app.use("/api", routerProductos); //Para que se ponga el router casi automatico
 
 //! PASO 2: Indicar el puerto de conexion del server:
 //Tambien sumamos un callback que haga un log especificando que puerto esta escuchando.
@@ -20,7 +30,7 @@ server.on('error', error => console.log(`Error en el server : ${error}`));
 
 //! PASO 4: Hacer un createServer con express, con la peticion get:
 
-app.get('/', (request , response) => {
+routerProductos.get('/', (request , response) => {
     response.send('<h1 style="color:blue;">Indicar en la ruta: /productos o /producto/:id </h1>');
 })
 
@@ -36,8 +46,8 @@ const product = new Contenedor('./Api/productos.txt');
 async function verProductos() {
     return await product.getAll();
 };
-app.get('/productos', async (req , res) => {
-    res.send(await verProductos());
+routerProductos.get('/productos', async (req , res) => {
+    res.json(await verProductos());
 
     //? Otra manera de resolverlo: 
     /*const product = new Contenedor('./productos.txt');
@@ -51,10 +61,14 @@ async function productoId(id) { //Tenemos la funcion que llama al metodo getById
     return await product.getbyId(id);
 };
 
-app.get('/productos/:id' , async (req, res) =>{
+routerProductos.get('/productos/:id' , async (req, res) =>{
     const { id } = req.params ; //desestructuramos los request params (:id)
-    res.send(await productoId(id)); //Llamamos a la funcion del getById pasando como parametro el id que tenemos del req.params
-    console.log(await productoId(id)); //imprime por consola
+    if( await productoId(id)) {
+        res.json(await productoId(id)); //Llamamos a la funcion del getById pasando como parametro el id que tenemos del req.params
+        console.log(await productoId(id)); //imprime por consola
+    } else {
+        res.json({error : "producto no encontrado"})
+    }
 })
 
 
@@ -64,9 +78,9 @@ async function postProducto(prod) { //Func que llama al metodo save de Contenedo
     return await product.save(prod)
 }
 
-app.post('/productos', async (req , res) =>{
+routerProductos.post('/productos', async (req , res) =>{
     const producto =  req.body; //asignamos una const que tenga el contenido del body de la peticion push (se puede desestrucurar tambien pero solo con el nombre particular)
-    res.send(await postProducto(producto)); //Llamamos a la funcion que tiene el .save y  le pasamos por parametro el producto que queremos sumar. (la funcion le da un id de por si que es igual al array length)
+    res.json(await postProducto(producto)); //Llamamos a la funcion que tiene el .save y  le pasamos por parametro el producto que queremos sumar. (la funcion le da un id de por si que es igual al array length)
 });
 
 
@@ -76,16 +90,16 @@ async function deleteProducto(id) {
     return await product.deleteById(id);
 }
 
-app.delete('/productos/:id', async (req , res) =>{
+routerProductos.delete('/productos/:id', async (req , res) =>{
     const { id } = req.params ; //desestructuramos los request params (:id)
-    res.send(await deleteProducto(parseInt(id))); //Llamamos a la funcion del deleteById pasando como parametro el id que tenemos del req.params
+    res.json(await deleteProducto(parseInt(id))); //Llamamos a la funcion del deleteById pasando como parametro el id que tenemos del req.params
     //Hacemos el parseInt porque estamos recibiendo :id en formato string. Con el parse int lo reconoce como numero
 })
 
 
 //! PASO 11: ARMAMOS TODO PARA EL PUT:
 
-app.put('/productos/:id', async (req , res) =>{
+routerProductos.put('/productos/:id', async (req , res) =>{
 
     const { id } = req.params;
     const newProduct = req.body
