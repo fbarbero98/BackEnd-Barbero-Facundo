@@ -57,7 +57,7 @@ class Contenedor {
             } //Esto es xq si eliminamos un producto, y creamos uno nuevo, se le asignaria un id ya asignado, entonces restamos uno a todos los siguientes despues de eliminar uno
         });
         await fs.writeFile(this.ruta, JSON.stringify(newProducts)); //Lo pasamos a formato string y sobreescribimos el archivo.
-        return(JSON.stringify(newProducts));
+        return(newProducts);
     }
 
     async deleteAll() {
@@ -65,6 +65,17 @@ class Contenedor {
         await fs.writeFile(this.ruta, arrayVacio); //Vacuiamos el array de productos y lo sobreescribimos. 
     }
 
+
+
+async saveProduct(arr){
+    try {
+        await fs.writeFile(this.ruta, JSON.stringify(arr, null, 2))
+        console.log("guardado exitoso");
+    } catch (error) {
+        console.error("error de escritura");
+        console.error(error)
+    }
+}
 }
 
 module.exports = Contenedor //Esto es para exportar este contenedor en otro archivo JS

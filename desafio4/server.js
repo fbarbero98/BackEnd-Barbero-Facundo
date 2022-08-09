@@ -28,8 +28,8 @@ app.get('/', (request , response) => {
 //! PASO 5: HACER EL IMPORT DE LA CLASS CONTENEDOR:
 // Tambien declarar la constante product, que va a hacer que podamos usar los metodos de la class contenedor 
 
-const Contenedor = require('./Contenedor.js'); //Esta es la forma en la que vamos a importar
-const product = new Contenedor('./productos.txt');
+const Contenedor = require('./Api/Contenedor.js'); //Esta es la forma en la que vamos a importar
+const product = new Contenedor('./Api/productos.txt');
 
 
 //! PASO 6: Declarar la funcion que va a hacer que veamos todos los productos y asignamos que la ruta /productos muestre ese return: 
@@ -81,3 +81,27 @@ app.delete('/productos/:id', async (req , res) =>{
     res.send(await deleteProducto(parseInt(id))); //Llamamos a la funcion del deleteById pasando como parametro el id que tenemos del req.params
     //Hacemos el parseInt porque estamos recibiendo :id en formato string. Con el parse int lo reconoce como numero
 })
+
+
+//! PASO 11: ARMAMOS TODO PARA EL PUT:
+
+app.put('/productos/:id', async (req , res) =>{
+
+    const { id } = req.params;
+    const newProduct = req.body
+    const producto = await productoId(id); //asignamos una const que tenga el contenido del body de la peticion push (se puede desestrucurar tambien pero solo con el nombre particular)
+    const productos = await verProductos(); //asignamos una const que tenga el contenido de getAll
+    const index = productos.findIndex(prod => { // index es igual a la posicion del producto que recibimos popor id en el array
+        return prod.id == producto.id   
+    });
+    if(index >= 0){
+        productos[index] = newProduct; //El producto que este en la posicion de index se modifica por el producto nuevo
+        newProduct.id = producto.id; //asignamos al producto nuevo el mismo id que el anterior
+        product.saveProduct(productos); //Usamos el metodo nuevo para sumar el array nuevo
+        res.send(`El producto: ${JSON.stringify(producto)} \n\n
+        Fue reemplazado por : ${JSON.stringify(newProduct)}`);
+    }
+    else{
+        res.sendStatus(400);
+    }
+});
