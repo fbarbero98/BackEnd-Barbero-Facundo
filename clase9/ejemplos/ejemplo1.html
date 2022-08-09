@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js
+    "></script> <!-- Esto es la pagina de handlebars-->
+
+<span></span>
+<script>
+    const template = Handlebars.compile(`
+    <h1>Datos Personales</h1>
+<ul>
+    <li>{{nombre}}</li>
+    <li>{{apellido}}</li>
+    <li>{{edad}}</li>
+    <li>{{email}}</li>
+    <li>{{telefono}}</li>
+</ul>
+`);
+
+    const html = template({
+        nombre: "Facundo",
+        apellido: "Barbero",
+        edad: 24,
+        email: "correo@correo.com",
+        telefono: "+541150370030"
+
+    })
+    document.querySelector('span').innerHTML = html;
+</script>
+
+<!--Para mejorarlo podriamos haber asignado el objeto como una variable, y tambien el template string-->
+
+<!-- version optimizada en otro archivo-->
+
+
+</body>
+</html>

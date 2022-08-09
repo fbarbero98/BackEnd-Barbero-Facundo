@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js
+    "></script> <!-- Esto es la pagina de handlebars-->
+
+<span></span>
+<script>
+    const template = Handlebars.compile('<h1>{{nombre}}</h1>'); // Declaramos el template, es nuestra "vista" , es lo que vamos a ver, aca es un h1 en la que remplazamos nombre
+    const html = template({nombre : 'Facundo'}) //Esto es lo que template reconocecomo nombre
+    //Pasamos la variable dinamica al cliente
+    //reemplazamos en efecto la variable
+    document.querySelector('span').innerHTML = html; //lo que metimos en la constante html lo mosttramos dentro del span
+</script>
+</body>
+</html>
