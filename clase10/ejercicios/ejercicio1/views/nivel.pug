@@ -1,0 +1,15 @@
+//- esto significa que recibe todo lo que estaba en la "layout"
+extends layout 
+
+//- es el bloque que definimos en el layout
+
+block medidor 
+    //el guion permite definir variables (en este caso a la variable le asignamos una clase)
+    //-Las variables hay que declararlas dentro del vbloque en que se va a usar
+    - const estilo = "width:25%; height:20px;"
+    // != Nos dice que a esa etiqueta le vamos a enviar codigo html
+    h1(style="color:blue;")!=titulo
+    span=min+" "
+    //- para crear la barra es meter
+    meter(value=nivel min=min max=max style=estilo)
+    span=" "+max  
