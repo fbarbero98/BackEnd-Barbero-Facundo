@@ -26,7 +26,7 @@ app.get('/', (req, res)=> {
 app.get('/productos', async(req, res)=> {
     const productos = await products.getAll();
     const length = productos.length > 0 ? true : false //Hacemos un ternario para ver si hay productos.
-    res.render('productos', {productos, length}); //pasamos ese length y despues en productos hacemos un if
+    res.render('productos', {productos, length}); //pasamos ese length y despues en productos hacemos un if y se le pasa {productos} para que lea los id, name, etc
 })
 app.post('/productos', async(req, res)=> {
     let product = req.body

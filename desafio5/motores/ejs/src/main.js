@@ -27,7 +27,7 @@ app.post('/productos', async (req, res)=> {
 
 app.get('/productos', async (req, res) => {
     const productos = await products.getAll()
-    res.render('products', {productos}) //Cuando se este en /productos, se va a visualizar products y se pasa productos
+    res.render('products', {productos}) //Cuando se este en /productos, se va a visualizar products y se le pasa {productos} para que lea los id, name, etc
 })
 
 app.listen(8080)

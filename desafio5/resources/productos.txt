@@ -16,17 +16,5 @@
     "price": 345.67,
     "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png",
     "id": 3
-  },
-  {
-    "name": "Facundo Barbero",
-    "price": 33,
-    "src": "33",
-    "id": 4
-  },
-  {
-    "name": "Facundo Barbero",
-    "price": "3",
-    "src": "3",
-    "id": 5
   }
 ]
