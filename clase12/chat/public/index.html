@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script> <!--Sirve para importar las utilidades de socket.io ()esta carpeta sale de la carpeta del node modules cuando instalamos la dependencia de socket.io-->
+</head>
+<body>
+    <h1>Mi app chat</h1>
+    <form onsubmit="return addMessage(this)"> <!--addMessage la definimos en main, tiene que sumar el mensaje a la cadena -->
+        <input type="text" id="author" placeholder="Tu nombre" required="required">
+        <input type="text" id="text" placeholder="Tu mensaje" required="required">
+        <input type="submit" value="Enviar">
+        </form>
+
+
+    <div id="messages"></div> <!--El id es para conectarlo con el getElementById-->
+
+
+<script src="js/main.js"></script> <!--Aca trabajamos la logica de la app--> <!--Normalmente va abajo del body -->
+</body>
+</html>
