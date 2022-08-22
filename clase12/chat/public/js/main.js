@@ -18,6 +18,7 @@ function addMessage(e) {
     };
 //! mandamos mensajes del lado del cliente al servidor
     socket.emit('new-message', mensaje); //hacemos un emit de un nuevo mensaje, y le pasamos el mensaje de arriba
+    return false //para evitar el refresh
 };
 
 
