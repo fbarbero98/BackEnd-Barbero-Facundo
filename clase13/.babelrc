@@ -1,0 +1,3 @@
+{
+    "presets": ["@babel/preset-env"] //Esto es para la configuracion de babel
+}
