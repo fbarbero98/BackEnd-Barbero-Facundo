@@ -24,7 +24,11 @@ async function verProductos() {
     return await products.getAll();
 };
 
+//! DEFINO UN ARRAY PARA LOS MENSAJES
 
+const mensajes = [
+    {author:"Developer" , text: "Bienvenidx al sitio web"}
+];
 
 io.on('connection', async socket => {
     //!productos
@@ -33,6 +37,7 @@ io.on('connection', async socket => {
     console.log("Cliente conectado");
     //? a penas se conecta el cliente le muestra los productos
     socket.emit('productos', await verProductos());
+    //Lo recibe el cliente en el socket.on linea 21
 
     //! Cuando el cliente manda un producto:
 
@@ -43,6 +48,16 @@ io.on('connection', async socket => {
 
 
     //mensajes
+    //! Emmit a penas se conecta al servidor 
+    socket.emit('mensajes', mensajes);
+    //Lo recibe el cliente en el socket.on linea 62
+
+    //!cuando el cliente manda un mensaje
+    socket.on("newMessage", data => {
+        mensajes.push(data);
+        io.sockets.emit("mensajes", mensajes)
+    })
+
 });
 
 //--------------------------------------------
@@ -51,6 +66,7 @@ io.on('connection', async socket => {
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public')) //Usamos los archivos de la carpeta public
+
 
 //--------------------------------------------
 // inicio el servidor

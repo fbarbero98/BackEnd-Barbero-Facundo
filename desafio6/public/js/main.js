@@ -14,7 +14,7 @@ formAgregarProducto.addEventListener('submit', e => {
         thumbnail: document.getElementById('foto').value
     }
 
-    socket.emit("newProduct", newProduct); //Mandamos con el nombre "newProduct" el producto nuevo que creamos, para que lo reciba del lado del servidor
+    socket.emit("newProduct", newProduct); //Mandamos con el nombre "newProduct" el producto nuevo que creamos, para que lo reciba del lado del servidor linea 45
 
 })
 //!El cliente recibe los "productos" y por cada uno crea la tabla.
@@ -44,19 +44,32 @@ const formPublicarMensaje = document.getElementById('formPublicarMensaje')
 formPublicarMensaje.addEventListener('submit', e => {
     e.preventDefault()
     //Armar el objeto de mensaje y luego emitir mensaje al evento nuevoMensaje con sockets
+
+    //!primero armo el objeto mensaje que se compone de lo que recibe en el input
+    const newMessage = {
+        author: inputUsername.value,
+        text: inputMensaje.value
+    };
+
+    //!Hago el emit del mensaje nuevo para que lo reciba el back
+
+    socket.emit("newMessage", newMessage);
+//-------------------- 
     formPublicarMensaje.reset()
     inputMensaje.focus()
 })
 
 socket.on('mensajes', mensajes => {
-    console.log(mensajes);
-    const html = makeHtmlList(mensajes)
-    document.getElementById('mensajes').innerHTML = html;
+    makeHtmlList(mensajes)
 })
 
-function makeHtmlList(mensajes) {
+function makeHtmlList(data) {
     //Armar nuestro html para mostrar los mensajes como lo hicimos en clase
-}
+   const html = data.map((elem) => {
+        return(`<div><strong>${elem.author}</strong>: <em>${elem.text}</em></div>`)
+    }).join(" ");
+    document.getElementById('mensajes').innerHTML = html;
+};
 
 inputUsername.addEventListener('input', () => {
     const hayEmail = inputUsername.value.length
