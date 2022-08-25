@@ -1,0 +1,22 @@
+{
+  "name": "clase14",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack ./a1.js ./a2.js ./a3.js",
+    "dev": "webpack ./a1.js ./a2.js ./a3.js -w --mode=development",
+    "start": "node ." 
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "webpack": "^5.74.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.10.0"
+  }
+}
+
