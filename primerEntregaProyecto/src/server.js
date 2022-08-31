@@ -79,7 +79,7 @@ routerProductos.get("/:id", async (req, res) => {
     const { id } = req.params;
     if (await productoId(id)) {
         //Si existe un producto que matchee el id que pasamos por param:
-        res.json(await productoId(id)); //Llamamos a la funcion del getById pasando como parametro el id que tenemos del req.params
+        res.json(await productoId(parseInt(id))); //Llamamos a la funcion del getById pasando como parametro el id que tenemos del req.params
     } else {
         res.json({ error: "producto no encontrado" });
     }
@@ -95,6 +95,8 @@ async function postProducto(prod) {
 routerProductos.post("/", soloAdmins, async (req, res) => {
     const prod = req.body; //asignamos una const que tenga el contenido del body de la peticion push (se puede desestrucurar tambien pero solo con el nombre particular)
     prod.timestamp = Date.now();
+    prod.stock = 20;
+    prod.descripcion = "A new product"
     res.json(await postProducto(prod)); //Llamamos a la funcion que tiene el .save y  le pasamos por parametro el producto que queremos sumar. (la funcion le da un id de por si que es igual al array length)
 });
 
@@ -108,7 +110,7 @@ async function actualizarProds(arr) {
 routerProductos.put("/:id", soloAdmins, async (req, res) => {
     const { id } = req.params;
     const newProduct = req.body;
-    const producto = await productoId(id); //asignamos una const que tenga el contenido del body de la peticion push (se puede desestrucurar tambien pero solo con el nombre particular)
+    const producto = await productoId(parseInt(id)); //asignamos una const que tenga el contenido del body de la peticion push (se puede desestrucurar tambien pero solo con el nombre particular)
     const prods = await verProductos(); //asignamos una const que tenga el contenido de getAll
     const index = prods.findIndex((prod) => {
         // index es igual a la posicion del producto que recibimos popor id en el array
@@ -177,9 +179,9 @@ async function carritoId(id) {
 
 routerCarrito.get("/:id/productos", async (req, res) => {
     const id = req.params.id; //desestrucutramos solo el id de los params
-    const carritoElegido = await carritoId(id); //Asignamos el getbyId a una constante en particular
+    const carritoElegido = await carritoId(parseInt(id)); //Asignamos el getbyId a una constante en particular
 
-    res.json(carritoElegido); // mostramos el carrito elegido
+    res.send(carritoElegido.productos); // mostramos el carrito elegido
 });
 
 // TODO POST POR ID: Usar la funcion de productoID para traer el producto, y la funcion carritoID para traer el carrito, y sumar el producto al carrito seleccionado
@@ -188,8 +190,8 @@ routerCarrito.post("/:id/productos", async (req, res) => {
     const { id } = req.params;
     const prodId = req.body.id;
 
-    const producto = await productoId(prodId); //Buscamos en productos.json, el producto que coincida con el id del producto que estamos pasando en el body
-    const carritoElegido = await carritoId(id); //buscamos el carrito cuyo id coincida con el id que pasamos en params
+    const producto = await productoId(parseInt(prodId)); //Buscamos en productos.json, el producto que coincida con el id del producto que estamos pasando en el body
+    const carritoElegido = await carritoId(parseInt(id)); //buscamos el carrito cuyo id coincida con el id que pasamos en params
 
     carritoElegido.productos.push(producto); //A ese carrito, le sumamos el producto que buscamos antes
 
@@ -213,13 +215,37 @@ routerCarrito.post("/:id/productos", async (req, res) => {
 // TODO: DELETE: 
 
 
+routerCarrito.delete("/:id/productos/:idProd", async (req, res) => {
+    const { id, idProd } = req.params;
 
+    const carritoElegido = await carritoId(parseInt(id)); //buscamos el carrito cuyo id coincida con el id que pasamos en params
+
+    const carritoSinProd = carritoElegido.productos.filter(prod => prod.id !== parseInt(idProd))
+    const carts = await carrito.getAll(); //hacemos una const carts que tenga TODOS los carritos
+    const index = carts.findIndex((carrito) => {
+        // index es igual a la posicion del carrito que recibimos por id en el array --> entre todos los carritos, busca la posicion del carrito que coincida con el id del carrito que recibimos por params
+        return carrito.id == carritoElegido.id;
+    });
+    if (index >= 0) {
+        carts[index].productos = carritoSinProd; //El carrito que este en la posicion de index se modifica por el carrito nuevo (con el push de productos hecho)
+
+        await carrito.saveProduct(carts); //este metodo lo que hace es reemplaza TODOS los carritos, pero el unico que cambio fue el elegido 
+        res.json(carts);
+    } else {
+        res.sendStatus(400);
+    }
+});
 
 
 
 routerCarrito.get('/', async(req , res) => {
-    const carts = await carrito.getAll();
-    res.json(carts)
+    const listaCarrito = await carrito.getAll();
+    const lista = [];
+    for (const item of listaCarrito) {
+        lista.push(item.id)
+    }
+    console.log(lista);
+    res.json(lista);
 });
 
 routerCarrito.get('/:id', async(req, res) => {

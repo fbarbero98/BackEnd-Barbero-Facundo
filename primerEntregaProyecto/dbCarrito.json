@@ -1,1 +1,47 @@
-[{"timestamp":1661976943766,"productos":[],"id":1},{"timestamp":1661977877052,"productos":[],"id":2},{"timestamp":1661977906305,"productos":[],"id":3}]
+[
+  {
+    "timestamp": 1661982563801,
+    "productos": [
+      {
+        "title": "producto2",
+        "price": "22",
+        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnL-AibR8iEbML_MifNkcnQ0-fljiaSm3vQ-GqKdDrS6NM4VYf1wgIVpZ7E0fequdDQEjZ3SWtiA&usqp=CAc",
+        "timestamp": 1661982516003,
+        "stock": 20,
+        "descripcion": "A new product",
+        "id": 2
+      }
+    ],
+    "id": 1
+  },
+  {
+    "timestamp": 1661982581825,
+    "productos": [
+      {
+        "title": "producto2",
+        "price": "22",
+        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnL-AibR8iEbML_MifNkcnQ0-fljiaSm3vQ-GqKdDrS6NM4VYf1wgIVpZ7E0fequdDQEjZ3SWtiA&usqp=CAc",
+        "timestamp": 1661982516003,
+        "stock": 20,
+        "descripcion": "A new product",
+        "id": 2
+      }
+    ],
+    "id": 2
+  },
+  {
+    "timestamp": 1661982584303,
+    "productos": [
+      {
+        "title": "producto 1",
+        "price": "1",
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png",
+        "timestamp": 1661982503502,
+        "stock": 20,
+        "descripcion": "A new product",
+        "id": 1
+      }
+    ],
+    "id": 3
+  }
+]
