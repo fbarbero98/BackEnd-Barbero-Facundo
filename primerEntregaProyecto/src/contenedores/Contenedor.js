@@ -22,7 +22,6 @@ class Contenedor {
                 const prodsObj = JSON.parse(isInProds); //Hacemos el parse porque lo devuelve como string
                 let arrayLength = prodsObj.length; //Declaramos una variable para ver cuantos objetos hay
                 obj.id = arrayLength + 1;//Declaramos que el id del obj que pasamos por parametro sea 1 mas que el largo del array
-                obj.price = parseInt(obj.price); //si recibimos un numero como array lo pasamos a numero
                 prodsObj.push(obj); //Le sumamos el objeto que pasamos por parametro al viejo objeto parseado
                 const objeto = JSON.stringify(prodsObj); //Pasamos el array completo a string
                 await fs.writeFile(this.ruta, objeto); //Sobreescribimos el archivo viejo
