@@ -1,5 +1,5 @@
 export const options = { //Configuramos las opciones de configuracion y las exportamos
-    client: 'SQLITE',
+    client: 'mysql',
     connection:{
         host: '127.0.0.1',
         user:'root',
