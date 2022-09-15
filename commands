@@ -1,0 +1,103 @@
+### Mostrar dbs ###
+show dbs
+
+### crear db ecommerce ###
+
+use ecommerce
+
+###creacion de las colecciones ###
+
+###PRODUCTOS###
+
+db.productos.insertMany([{title:"Gaseosa1", price: 150, thumbnail:"img1"},
+{title:"Gaseosa2", price: 260, thumbnail:"img2"},
+{title:"Gaseosa3", price: 350, thumbnail:"img3"},
+{title:"Gaseosa4", price: 370, thumbnail:"img4"},
+{title:"Gaseosa5", price: 490, thumbnail:"img5"},
+{title:"Gaseosa6", price: 590, thumbnail:"img6"},
+{title:"Gaseosa7", price: 670, thumbnail:"img7"},
+{title:"Gaseosa8", price: 900, thumbnail:"img8"},
+{title:"Gaseosa9", price: 470, thumbnail:"img9"},
+{title:"Gaseosa10", price: 780, thumbnail:"img10"}])
+
+
+db.productos.find()
+
+###MENSAJES###
+
+db.mensajes.insertMany([{email: "mail1@gmail.com", mensaje:"texto1"}, 
+{email: "mail2@gmail.com", mensaje:"texto2"},
+{email: "mail3@gmail.com", mensaje:"texto3"},
+{email: "mail4@gmail.com", mensaje:"texto4"},
+{email: "mail5@gmail.com", mensaje:"texto5"},
+{email: "mail6@gmail.com", mensaje:"texto6"},
+{email: "mail7@gmail.com", mensaje:"texto7"},
+{email: "mail8@gmail.com", mensaje:"texto8"},
+{email: "mail9@gmail.com", mensaje:"texto9"},
+{email: "mail10@gmail.com", mensaje:"texto10"}])
+
+db.mensajes.find()
+
+
+### Mostrar la cantidad de documentos almacenados en cada una de ellas. ###
+
+db.mensajes.countDocuments()
+
+
+db.productos.countDocuments()
+
+###  Agregar un producto más en la colección de productos  ###
+
+db.productos.insertOne({title: "Gaseosa11", price: 390, thumbnail: "img11"})
+
+### Listar los productos con precio menor a 100 pesos. ###
+
+db.productos.find({price:{$lt: 1000}})
+
+### Listar los productos con precio entre los 100 a 300 pesos. ###
+
+db.productos.find({$and: [{price: {$gt: 100}}, {price:{$lt: 300}}]})
+
+### Listar los productos con precio mayor a 300 pesos. ###
+db.productos.find({price:{$gt: 300}})
+
+
+###Realizar una consulta que traiga sólo el nombre del tercer producto más barato. ###
+db.productos.find({},{_id:0, title:1}).sort({price:1}).limit(1).skip(3)
+
+### primero buscamos que solamente nos muestre el title, y despues usamos el metodo sort, que ordena los productos desde el atributo elegido de manera ascendente, luego le aplicamos el limit, para que solo pueda devolver 1 producto, y el skip hace que saltee los dos primeros###
+
+
+### Hacer una actualización sobre todos los productos, agregando el campo stock a todos ellos con un valor de 100. ###
+
+db.productos.updateMany({},{$set: {stock : 100}})
+
+### Cambiar el stock a cero de los productos con precios mayores a 400 pesos.  ###
+
+db.productos.updateMany({price: {$gt: 400}},{$set: {stock :0}})
+
+
+### Borrar los productos con precio menor a 200 pesos  ###
+
+db.productos.deleteMany({price: {$lt: 200}})
+
+
+
+###Cerramos la db, y la volvemos a abrir###
+
+show dbs
+
+use admin
+
+
+db.createUser(
+  {
+    user: "pepe",
+    pwd: "asd456",
+    roles: [
+       { role: "read", db: "ecommerce" }
+    ]
+  }
+)
+
+
