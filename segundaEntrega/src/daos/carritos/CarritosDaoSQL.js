@@ -40,7 +40,7 @@ class CarritosDaoSQL {
         return Promise.allSettled(inserts)
     }
 
-    async delete(_idCarrito) {
+    async deleteById(_idCarrito) {
         const idCarrito = Number(_idCarrito)
         const result = await Promise.allSettled([
             this.prodsEnCarritos.deleteAll({ idCarrito }),
