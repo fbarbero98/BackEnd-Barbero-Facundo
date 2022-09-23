@@ -3,7 +3,7 @@ export default {
         path: './DB'
     },
     mongodb: {
-        cnxStr: 'mongodb+srv://fbarbero32065:Liceonaval98@cluster0.aqcu7ce.mongodb.net/test',
+        cnxStr: 'mongodb+srv://fbarbero32065:Liceonaval98@cluster0.aqcu7ce.mongodb.net/ecommerce',
         options: {
             useNewUrlParser: true,
             useUnifiedTopology: true,

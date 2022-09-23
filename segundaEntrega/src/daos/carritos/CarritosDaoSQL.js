@@ -7,20 +7,20 @@ class CarritosDaoSQL {
         this.prodsEnCarritos = new ContenedorSQL(configProds, 'prodsEnCarritos')
     }
 
-    async guardar(carrito = {}) {
-        const result = await this.carritos.guardar(carrito)
+    async save(carrito = {}) {
+        const result = await this.carritos.save(carrito)
         result.productos = []
         return result
     }
 
-    async listar(_idCarrito) {
+    async getById(_idCarrito) {
         const idCarrito = Number(_idCarrito)
-        await this.carritos.listar(idCarrito)
+        await this.carritos.getById(idCarrito)
         const result = {
             id: idCarrito,
             productos: []
         }
-        const prodsEnCarritos = await this.prodsEnCarritos.listarAll({ idCarrito })
+        const prodsEnCarritos = await this.prodsEnCarritos.getAll({ idCarrito })
         for (const prod of prodsEnCarritos) {
             delete prod.idCarrito
             result.productos.push(prod)
@@ -28,11 +28,11 @@ class CarritosDaoSQL {
         return result
     }
 
-    async actualizar(carrito) {
+    async update(carrito) {
         carrito.id = Number(carrito.id)
-        await this.prodsEnCarritos.borrarAll({ idCarrito: carrito.id })
+        await this.prodsEnCarritos.deleteAll({ idCarrito: carrito.id })
         const inserts = carrito.productos.map(p => {
-            return this.prodsEnCarritos.guardar({
+            return this.prodsEnCarritos.save({
                 ...p,
                 idCarrito: carrito.id
             })
@@ -40,24 +40,24 @@ class CarritosDaoSQL {
         return Promise.allSettled(inserts)
     }
 
-    async borrar(_idCarrito) {
+    async delete(_idCarrito) {
         const idCarrito = Number(_idCarrito)
         const result = await Promise.allSettled([
-            this.prodsEnCarritos.borrarAll({ idCarrito }),
-            this.carritos.borrar(idCarrito)
+            this.prodsEnCarritos.deleteAll({ idCarrito }),
+            this.carritos.delete(idCarrito)
         ])
         return result
     }
 
-    borrarAll() {
+    deleteAll() {
         return Promise.allSettled([
-            this.carritos.borrarAll(),
-            this.prodsEnCarritos.borrarAll()
+            this.carritos.deleteAll(),
+            this.prodsEnCarritos.deleteAll()
         ])
     }
 
-    async listarAll() {
-        const carritosIds = await this.carritos.listarAll()
+    async getAll() {
+        const carritosIds = await this.carritos.getAll()
         const carritosMap = new Map()
         for (const obj of carritosIds) {
             carritosMap.set(obj.id, {
@@ -65,7 +65,7 @@ class CarritosDaoSQL {
                 productos: []
             })
         }
-        const prodsEnCarritos = await this.prodsEnCarritos.listarAll()
+        const prodsEnCarritos = await this.prodsEnCarritos.getAll()
         for (const prod of prodsEnCarritos) {
             if (carritosMap.has(prod.idCarrito)) {
                 carritosMap.get(prod.idCarrito).productos.push(prod)
